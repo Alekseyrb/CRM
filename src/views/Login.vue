@@ -34,8 +34,10 @@
         <small
             class="helper-text invalid"
             v-else-if="$v.password.$dirty && !$v.password.minLength"
-        >Минимальное количество символов {{$v.password.$params.minLength.min}}. Сейчас он {{ password.length }}</small>
-        <small class="helper-text" v-else> {{password.length}}/{{$v.password.$params.minLength.min}} </small>
+        >Минимальное количество символов {{ $v.password.$params.minLength.min }}. Сейчас он {{
+            password.length
+          }}</small>
+        <small class="helper-text" v-else> {{ password.length }}/{{ $v.password.$params.minLength.min }} </small>
       </div>
     </div>
     <div class="card-action">
@@ -59,6 +61,7 @@
 
 <script>
 import {email, required, minLength} from 'vuelidate/lib/validators';
+import messages from "@/utils/messages";
 
 export default {
   name: "Login",
@@ -69,6 +72,11 @@ export default {
   validations: {
     email: {email, required},
     password: {required, minLength: minLength(8)},
+  },
+  mounted() {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message]);
+    }
   },
   methods: {
     submitHandler() {
