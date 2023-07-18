@@ -34,9 +34,8 @@
         <small
             class="helper-text invalid"
             v-else-if="$v.password.$dirty && !$v.password.minLength"
-        >Минимальное количество символов {{ $v.password.$params.minLength.min }}. Сейчас он {{
-            password.length
-          }}</small>
+        >Минимальное количество символов {{ $v.password.$params.minLength.min }}. Сейчас он {{ password.length }}
+        </small>
         <small class="helper-text" v-else> {{ password.length }}/{{ $v.password.$params.minLength.min }} </small>
       </div>
     </div>
@@ -79,7 +78,7 @@ export default {
     }
   },
   methods: {
-    submitHandler() {
+    async submitHandler() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
@@ -88,8 +87,13 @@ export default {
         email: this.email,
         password: this.password,
       }
-      console.log(formData);
-      this.$router.push('/');
+
+      try {
+        await this.$store.dispatch('login', formData);
+        await this.$router.push('/');
+      } catch (e) {
+        console.log(e);
+      }
     },
   }
 }

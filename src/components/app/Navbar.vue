@@ -63,9 +63,9 @@ export default {
     console.log('before destroy');
   },
   methods: {
-    logout() {
-      console.log('Logout');
-      this.$router.push('/login?message=logout');
+    async logout() {
+      await this.$store.dispatch('logout');
+      await this.$router.push('/login?message=logout');
     },
   }
 }
