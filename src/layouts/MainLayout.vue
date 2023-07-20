@@ -56,7 +56,7 @@ export default {
       console.log(fbError);
       this.$error(messages[fbError.code] || 'Что-то пошло не так');
     }
-  }
+  },
   components: {
     Navbar, Sidebar,
   }
