@@ -18,6 +18,7 @@
             tag="a"
             to="/record"
             class="btn-floating btn-large blue"
+            v-tooltip="'Создать новую запись'"
         >
           <i class="large material-icons">add</i>
         </router-link>
@@ -30,6 +31,7 @@
 <script>
 import Navbar from "@/components/app/Navbar.vue";
 import Sidebar from "@/components/app/Sidebar.vue";
+import messages from "@/utils/messages";
 
 export default {
   name: "MainLayout",
@@ -44,6 +46,17 @@ export default {
 
     this.loading = false;
   },
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    }
+  },
+  watch: {
+    error(fbError) {
+      console.log(fbError);
+      this.$error(messages[fbError.code] || 'Что-то пошло не так');
+    }
+  }
   components: {
     Navbar, Sidebar,
   }
