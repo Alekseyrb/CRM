@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import Paginate from 'vuejs-paginate';
+import VueMeta from "vue-meta";
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -9,6 +10,7 @@ import currencyFilter from "@/filters/currencyFilter";
 import localizeFilter from "@/filters/localizeFilter";
 import tooltipDirective from "@/directives/tooltipDirective";
 import messagePlugin from "@/utils/message.plugin";
+import titlePlugin from "@/utils/titlePlugin";
 import Loader from "@/components/app/Loader.vue";
 import './registerServiceWorker';
 import 'materialize-css/dist/js/materialize.min';
@@ -20,7 +22,9 @@ import 'firebase/database';
 Vue.config.productionTip = false;
 
 Vue.use(messagePlugin);
+Vue.use(titlePlugin);
 Vue.use(Vuelidate);
+Vue.use(VueMeta);
 Vue.filter('date', dateFilter);
 Vue.filter('currency', currencyFilter);
 Vue.filter('localize', localizeFilter);

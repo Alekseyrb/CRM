@@ -45,6 +45,11 @@ ChartJS.register(ArcElement, Title, Tooltip, Legend)
 
 export default {
   name: "History",
+  metaInfo() {
+    return {
+      title: this.$title('Menu_History')
+    }
+  },
   mixins: [paginationMixin],
   data: () => ({
     loading: true,
