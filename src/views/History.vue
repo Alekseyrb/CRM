@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>История записей</h3>
+      <h3>{{ 'History_Title' | localize}}</h3>
     </div>
 
     <div class="history-chart">
@@ -13,8 +13,8 @@
     <Loader v-if="loading"/>
 
     <p class="center" v-else-if="!records.length">
-      Записей пока нет.
-      <router-link to="/record">Добавьте первую</router-link>
+      {{'NoRecords' | localize}}.
+      <router-link to="/record">{{ 'AddFirst' | localize}}</router-link>
     </p>
 
     <section v-else>
@@ -24,8 +24,8 @@
           v-model="page"
           :page-count="pageCount"
           :click-handler="pageChangeHandler"
-          :prev-text="'Назад'"
-          :next-text="'Вперед'"
+          :prev-text="'Back' | localize"
+          :next-text="'Forward' | localize"
           :container-class="'pagination'"
           :page-class="'waves-effect'"
       >
@@ -39,6 +39,7 @@ import paginationMixin from "@/mixins/paginationMixin";
 import HistoryTable from "@/components/HistoryTable.vue";
 import {Pie} from 'vue-chartjs'
 import {Chart as ChartJS, ArcElement, Title, Tooltip, Legend} from 'chart.js'
+import localizeFilter from "@/filters/localizeFilter";
 
 ChartJS.register(ArcElement, Title, Tooltip, Legend)
 
@@ -60,7 +61,7 @@ export default {
       labels: categories.map(c => c.title),
       datasets: [
         {
-          label: 'Расходы по категориям',
+          label: localizeFilter('CostsForCategories'),
           backgroundColor: ['#f87979', '#00ccff', '#ffcc00', "red", "green", "yellow", "black"],
           data: categories.map(c => {
             return this.records.reduce((total, r) => {
@@ -83,7 +84,9 @@ export default {
           ...record,
           categoryName: categories.find(c => c.id === record.categoryId).title,
           typeClass: record.type === 'income' ? 'green' : 'red',
-          typeText: record.type === 'income' ? 'Доход' : 'Расход',
+          typeText: record.type === 'income'
+              ? localizeFilter('Income')
+              : localizeFilter('Outcome')
         }
       }));
 

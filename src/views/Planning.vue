@@ -7,7 +7,7 @@
 
     <Loader v-if="loading"/>
 
-    <p class="center" v-else-if="!categories.length">Категорий пока нет.
+    <p class="center" v-else-if="!categories.length">{{ 'NoCategories' | localize }}.
       <router-link to="/categories">Добавить новую категорию</router-link>
     </p>
 
@@ -15,7 +15,7 @@
       <div v-for="cat in categories" :key="cat.id">
         <p>
           <strong>{{ cat.title }}</strong>
-          {{ cat.spend | currency }} из {{ cat.limit | currency }}
+          {{ cat.spend | currency }} {{ 'Of' | localize }} {{ cat.limit | currency }}
         </p>
         <div class="progress" v-tooltip="cat.tooltip">
           <div
@@ -32,6 +32,7 @@
 <script>
 import {mapGetters} from "vuex";
 import currencyFilter from "@/filters/currencyFilter";
+import localizeFilter from "@/filters/localizeFilter";
 
 export default {
   name: "Planning",
@@ -61,7 +62,7 @@ export default {
               : 'red';
 
       const tooltipValue = cat.limit - spend;
-      const tooltip = `${tooltipValue < 0 ? 'Превышение на' : 'Осталось'} ${currencyFilter(Math.abs(tooltipValue))}`
+      const tooltip = `${tooltipValue < 0 ? localizeFilter('MoreThan') : localizeFilter('Stayed')} ${currencyFilter(Math.abs(tooltipValue))}`
 
       return {
         ...cat,
